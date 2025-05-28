@@ -1,0 +1,197 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { useQuiz } from "@/contexts/quiz-context";
+import {
+  clearQuizState,
+  loadFromLocalStorage,
+} from "@/utils/local-storage-helpers";
+import { motion } from "framer-motion";
+import {
+  CheckCircle,
+  Clock,
+  Home,
+  RotateCcw,
+  Trophy,
+  XCircle,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+export default function ResultPage() {
+  const { state, dispatch } = useQuiz();
+  const router = useRouter();
+  const [results, setResults] = useState({
+    correct: 0,
+    wrong: 0,
+    attempted: 0,
+    percentage: 0,
+  });
+
+  useEffect(() => {
+    // Prevent direct access without completing quiz
+    const savedUser = loadFromLocalStorage("quiz_user", null);
+    if (!savedUser || !state.isQuizCompleted) {
+      router.push("/login");
+      return;
+    }
+
+    // Calculate results
+    let correct = 0;
+    let attempted = 0;
+
+    state.userAnswers.forEach((answer, index) => {
+      if (answer) {
+        attempted++;
+        if (answer === state.questions[index]?.correct_answer) {
+          correct++;
+        }
+      }
+    });
+
+    const wrong = attempted - correct;
+    const percentage =
+      attempted > 0 ? Math.round((correct / attempted) * 100) : 0;
+
+    setResults({ correct, wrong, attempted, percentage });
+  }, [state, router]);
+
+  const handleRestart = () => {
+    clearQuizState();
+    dispatch({ type: "RESTART_QUIZ" });
+    router.push("/quiz");
+  };
+
+  const handleGoHome = () => {
+    clearQuizState();
+    dispatch({ type: "RESTART_QUIZ" });
+    router.push("/login");
+  };
+
+  const getPerformanceMessage = () => {
+    if (results.percentage >= 90) return "Outstanding!";
+    if (results.percentage >= 80) return "Excellent work!";
+    if (results.percentage >= 70) return "Good job!";
+    if (results.percentage >= 60) return "Not bad!";
+    return "Keep practicing!";
+  };
+
+  const getPerformanceColor = () => {
+    if (results.percentage >= 80) return "text-green-600";
+    if (results.percentage >= 60) return "text-yellow-600";
+    return "text-red-600";
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      router.push("/result");
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [router]);
+
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-2xl"
+      >
+        <Card className="shadow-xl">
+          <CardHeader className="text-center space-y-4">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.2, type: "spring" }}
+              className="mx-auto w-20 h-20 bg-primary rounded-full flex items-center justify-center"
+            >
+              <Trophy className="w-10 h-10 text-white" />
+            </motion.div>
+            <CardTitle className="text-3xl font-bold">Quiz Complete!</CardTitle>
+            <p className={`text-sm font-bold ${getPerformanceColor()}`}>
+              {getPerformanceMessage()}{" "}
+              <span className="text-black">{state.user}</span>
+            </p>
+          </CardHeader>
+
+          <CardContent className="space-y-6">
+            {/* Score Overview */}
+            <div className="text-center space-y-4">
+              <div className="text-6xl font-bold text-primary">
+                {results.percentage}%
+              </div>
+              <Progress value={results.percentage} className="w-full h-3" />
+            </div>
+
+            {/* Detailed Results */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-center p-4 bg-green rounded-lg border border-green-200"
+              >
+                <CheckCircle className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                <div className="text-2xl font-bold text-green-600">
+                  {results.correct}
+                </div>
+                <div className="text-sm text-green-700">Correct</div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-center p-4 bg-red-50 rounded-lg border border-red-200"
+              >
+                <XCircle className="w-8 h-8 text-red-600 mx-auto mb-2" />
+                <div className="text-2xl font-bold text-red-600">
+                  {results.wrong}
+                </div>
+                <div className="text-sm text-red-700">Wrong</div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200"
+              >
+                <Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                <div className="text-2xl font-bold text-blue-600">
+                  {results.attempted}
+                </div>
+                <div className="text-sm text-blue-700">Attempted</div>
+              </motion.div>
+            </div>
+
+            {/* Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-4 pt-4"
+            >
+              <Button onClick={handleRestart} className="flex-1 text-lg py-6">
+                <RotateCcw className="w-5 h-5 mr-2" />
+                Take Quiz Again
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleGoHome}
+                className="flex-1 text-lg py-6"
+              >
+                <Home className="w-5 h-5 mr-2" />
+                Back to Home
+              </Button>
+            </motion.div>
+          </CardContent>
+        </Card>
+      </motion.div>
+    </div>
+  );
+}
