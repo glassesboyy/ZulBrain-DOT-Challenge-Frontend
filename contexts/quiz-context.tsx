@@ -1,9 +1,9 @@
 "use client";
 
 import type React from "react";
-
 import { createContext, useContext, useReducer, type ReactNode } from "react";
 
+// Struktur data soal
 export interface Question {
   question: string;
   correct_answer: string;
@@ -11,6 +11,7 @@ export interface Question {
   shuffled_answers: string[];
 }
 
+// State quiz global
 export interface QuizState {
   user: string | null;
   questions: Question[];
@@ -22,6 +23,7 @@ export interface QuizState {
   isTimerActive: boolean;
 }
 
+// Tipe aksi quiz
 type QuizAction =
   | { type: "SET_USER"; payload: string }
   | { type: "SET_QUESTIONS"; payload: Question[] }
@@ -35,6 +37,7 @@ type QuizAction =
   | { type: "START_TIMER" }
   | { type: "STOP_TIMER" };
 
+// State awal quiz
 const initialState: QuizState = {
   user: null,
   questions: [],
@@ -46,6 +49,7 @@ const initialState: QuizState = {
   isTimerActive: false,
 };
 
+// Pengatur state quiz
 function quizReducer(state: QuizState, action: QuizAction): QuizState {
   switch (action.type) {
     case "SET_USER":
@@ -92,11 +96,13 @@ function quizReducer(state: QuizState, action: QuizAction): QuizState {
   }
 }
 
+// Context quiz
 const QuizContext = createContext<{
   state: QuizState;
   dispatch: React.Dispatch<QuizAction>;
 } | null>(null);
 
+// Provider quiz
 export function QuizProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(quizReducer, initialState);
 
@@ -107,6 +113,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// Hook quiz
 export function useQuiz() {
   const context = useContext(QuizContext);
   if (!context) {

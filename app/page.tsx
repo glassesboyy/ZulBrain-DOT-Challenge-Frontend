@@ -1,24 +1,24 @@
-"use client"
+"use client";
 
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { useQuiz } from "@/contexts/quiz-context"
-import { loadFromLocalStorage } from "@/utils/local-storage-helpers"
+import { useQuiz } from "@/contexts/quiz-context";
+import { loadFromLocalStorage } from "@/utils/local-storage-helpers";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function HomePage() {
-  const router = useRouter()
-  const { dispatch } = useQuiz()
+  const router = useRouter();
+  const { dispatch } = useQuiz();
 
+  // Cek user login
   useEffect(() => {
-    // Check if user is already logged in
-    const savedUser = loadFromLocalStorage("quiz_user", null)
+    const savedUser = loadFromLocalStorage("quiz_user", null);
     if (savedUser) {
-      dispatch({ type: "SET_USER", payload: savedUser })
-      router.push("/quiz")
+      dispatch({ type: "SET_USER", payload: savedUser });
+      router.push("/quiz");
     } else {
-      router.push("/login")
+      router.push("/login");
     }
-  }, [dispatch, router])
+  }, [dispatch, router]);
 
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -27,5 +27,5 @@ export default function HomePage() {
         <p className="mt-4 text-muted-foreground">Loading...</p>
       </div>
     </div>
-  )
+  );
 }

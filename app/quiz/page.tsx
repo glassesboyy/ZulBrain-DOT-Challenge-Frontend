@@ -18,6 +18,7 @@ import { LogOut, RotateCcw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
+// Tipe data API
 interface ApiQuestion {
   question: string;
   correct_answer: string;
@@ -28,8 +29,8 @@ export default function QuizPage() {
   const { state, dispatch } = useQuiz();
   const router = useRouter();
 
+  // Cek login user
   useEffect(() => {
-    // Check if user is logged in
     const savedUser = loadFromLocalStorage("quiz_user", null);
     if (!savedUser) {
       router.push("/login");
@@ -40,31 +41,30 @@ export default function QuizPage() {
       dispatch({ type: "SET_USER", payload: savedUser });
     }
 
-    // Try to restore quiz state from localStorage
     const savedState = loadQuizState();
     if (savedState.questions && savedState.questions.length > 0) {
       dispatch({ type: "RESTORE_STATE", payload: savedState });
       dispatch({ type: "START_TIMER" });
     } else {
-      // Fetch new questions if none exist
       fetchQuestions();
     }
   }, []);
 
+  // Cek quiz selesai
   useEffect(() => {
-    // Redirect to results when quiz is completed
     if (state.isQuizCompleted && state.questions.length > 0) {
       router.push("/result");
     }
   }, [state.isQuizCompleted, router]);
 
+  // Simpan progres
   useEffect(() => {
-    // Save state to localStorage whenever it changes
     if (state.questions.length > 0) {
       saveQuizState(state);
     }
   }, [state]);
 
+  // Ambil soal quiz
   const fetchQuestions = async () => {
     dispatch({ type: "SET_LOADING", payload: true });
 
@@ -93,12 +93,14 @@ export default function QuizPage() {
     }
   };
 
+  // Keluar quiz
   const handleLogout = () => {
     clearQuizState();
     dispatch({ type: "RESTART_QUIZ" });
     router.push("/login");
   };
 
+  // Ulang quiz
   const handleRestart = () => {
     dispatch({ type: "RESTART_QUIZ" });
     fetchQuestions();

@@ -1,7 +1,5 @@
 "use client";
 
-import type React from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,6 +14,7 @@ import { saveToLocalStorage } from "@/utils/local-storage-helpers";
 import { motion } from "framer-motion";
 import { ArrowRight, Brain } from "lucide-react";
 import { useRouter } from "next/navigation";
+import type React from "react";
 import { useState } from "react";
 
 export default function LoginPage() {
@@ -24,17 +23,16 @@ export default function LoginPage() {
   const router = useRouter();
   const { dispatch } = useQuiz();
 
+  // Submit nama user
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) return;
 
     setIsLoading(true);
 
-    // Save user to localStorage and context
     saveToLocalStorage("quiz_user", name.trim());
     dispatch({ type: "SET_USER", payload: name.trim() });
 
-    // Simulate a brief loading state for better UX
     setTimeout(() => {
       router.push("/quiz");
     }, 500);

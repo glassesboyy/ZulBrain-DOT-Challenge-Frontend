@@ -20,6 +20,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+// Halaman hasil quiz
 export default function ResultPage() {
   const { state, dispatch } = useQuiz();
   const router = useRouter();
@@ -30,15 +31,14 @@ export default function ResultPage() {
     percentage: 0,
   });
 
+  // Hitung skor quiz
   useEffect(() => {
-    // Prevent direct access without completing quiz
     const savedUser = loadFromLocalStorage("quiz_user", null);
     if (!savedUser || !state.isQuizCompleted) {
       router.push("/login");
       return;
     }
 
-    // Calculate results
     let correct = 0;
     let attempted = 0;
 
@@ -58,18 +58,21 @@ export default function ResultPage() {
     setResults({ correct, wrong, attempted, percentage });
   }, [state, router]);
 
+  // Reset quiz baru
   const handleRestart = () => {
     clearQuizState();
     dispatch({ type: "RESTART_QUIZ" });
     router.push("/quiz");
   };
 
+  // Kembali login
   const handleGoHome = () => {
     clearQuizState();
     dispatch({ type: "RESTART_QUIZ" });
     router.push("/login");
   };
 
+  // Pesan performa
   const getPerformanceMessage = () => {
     if (results.percentage >= 90) return "Outstanding!";
     if (results.percentage >= 80) return "Excellent work!";
@@ -78,12 +81,14 @@ export default function ResultPage() {
     return "Keep practicing!";
   };
 
+  // Warna performa
   const getPerformanceColor = () => {
     if (results.percentage >= 80) return "text-green-600";
     if (results.percentage >= 60) return "text-yellow-600";
     return "text-red-600";
   };
 
+  // Cegah back browser
   useEffect(() => {
     const handlePopState = () => {
       router.push("/result");
@@ -119,7 +124,6 @@ export default function ResultPage() {
           </CardHeader>
 
           <CardContent className="space-y-6">
-            {/* Score Overview */}
             <div className="text-center space-y-4">
               <div className="text-6xl font-bold text-white">
                 {results.percentage}%
@@ -127,7 +131,6 @@ export default function ResultPage() {
               <Progress value={results.percentage} className="w-full h-3" />
             </div>
 
-            {/* Detailed Results */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -175,7 +178,6 @@ export default function ResultPage() {
               </motion.div>
             </div>
 
-            {/* Action Buttons */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

@@ -1,5 +1,6 @@
 import type { QuizState } from "@/contexts/quiz-context";
 
+// Keys localStorage quiz
 const STORAGE_KEYS = {
   USER: "quiz_user",
   QUIZ_STATE: "quiz_state",
@@ -9,6 +10,7 @@ const STORAGE_KEYS = {
   TIME_REMAINING: "quiz_time_remaining",
 };
 
+// Simpan ke localStorage
 export function saveToLocalStorage(key: string, value: any): void {
   try {
     localStorage.setItem(key, JSON.stringify(value));
@@ -17,6 +19,7 @@ export function saveToLocalStorage(key: string, value: any): void {
   }
 }
 
+// Load dari localStorage
 export function loadFromLocalStorage<T>(key: string, defaultValue: T): T {
   try {
     const item = localStorage.getItem(key);
@@ -27,6 +30,7 @@ export function loadFromLocalStorage<T>(key: string, defaultValue: T): T {
   }
 }
 
+// Hapus dari localStorage
 export function removeFromLocalStorage(key: string): void {
   try {
     localStorage.removeItem(key);
@@ -35,6 +39,7 @@ export function removeFromLocalStorage(key: string): void {
   }
 }
 
+// Simpan state quiz
 export function saveQuizState(state: Partial<QuizState>): void {
   saveToLocalStorage(STORAGE_KEYS.USER, state.user);
   saveToLocalStorage(STORAGE_KEYS.QUESTIONS, state.questions);
@@ -43,6 +48,7 @@ export function saveQuizState(state: Partial<QuizState>): void {
   saveToLocalStorage(STORAGE_KEYS.TIME_REMAINING, state.timeRemaining);
 }
 
+// Load state quiz
 export function loadQuizState(): Partial<QuizState> {
   return {
     user: loadFromLocalStorage(STORAGE_KEYS.USER, null),
@@ -53,6 +59,7 @@ export function loadQuizState(): Partial<QuizState> {
   };
 }
 
+// Reset quiz
 export function clearQuizState(): void {
   Object.values(STORAGE_KEYS).forEach((key) => {
     removeFromLocalStorage(key);
