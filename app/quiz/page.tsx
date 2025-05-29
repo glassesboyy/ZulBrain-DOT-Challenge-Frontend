@@ -64,7 +64,7 @@ export default function QuizPage() {
     }
   }, [state]);
 
-  // Ambil soal quiz
+  // Ambil soal quiz - pake shuffle
   const fetchQuestions = async () => {
     dispatch({ type: "SET_LOADING", payload: true });
 

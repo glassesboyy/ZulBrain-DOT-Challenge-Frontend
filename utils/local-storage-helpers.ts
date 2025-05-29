@@ -1,6 +1,6 @@
 import type { QuizState } from "@/contexts/quiz-context";
 
-// Keys localStorage quiz
+// Kumpulan key untuk penyimpanan data di localStorage
 const STORAGE_KEYS = {
   USER: "quiz_user",
   QUIZ_STATE: "quiz_state",
@@ -10,7 +10,7 @@ const STORAGE_KEYS = {
   TIME_REMAINING: "quiz_time_remaining",
 };
 
-// Simpan ke localStorage
+// Menyimpan data ke localStorage -> login
 export function saveToLocalStorage(key: string, value: any): void {
   try {
     localStorage.setItem(key, JSON.stringify(value));
@@ -19,7 +19,7 @@ export function saveToLocalStorage(key: string, value: any): void {
   }
 }
 
-// Load dari localStorage
+// Mengambil data dari localStorage -> quiz
 export function loadFromLocalStorage<T>(key: string, defaultValue: T): T {
   try {
     const item = localStorage.getItem(key);
@@ -30,7 +30,7 @@ export function loadFromLocalStorage<T>(key: string, defaultValue: T): T {
   }
 }
 
-// Hapus dari localStorage
+// Menghapus data localStorage -> untuk clear
 export function removeFromLocalStorage(key: string): void {
   try {
     localStorage.removeItem(key);
@@ -39,7 +39,7 @@ export function removeFromLocalStorage(key: string): void {
   }
 }
 
-// Simpan state quiz
+// Menyimpan state quiz ke localStorage -> quiz
 export function saveQuizState(state: Partial<QuizState>): void {
   saveToLocalStorage(STORAGE_KEYS.USER, state.user);
   saveToLocalStorage(STORAGE_KEYS.QUESTIONS, state.questions);
@@ -48,7 +48,7 @@ export function saveQuizState(state: Partial<QuizState>): void {
   saveToLocalStorage(STORAGE_KEYS.TIME_REMAINING, state.timeRemaining);
 }
 
-// Load state quiz
+// Mengambil seluruh state quiz dari localStorage -> quiz
 export function loadQuizState(): Partial<QuizState> {
   return {
     user: loadFromLocalStorage(STORAGE_KEYS.USER, null),
@@ -59,7 +59,7 @@ export function loadQuizState(): Partial<QuizState> {
   };
 }
 
-// Reset quiz
+// Clear -> logout, reset quiz, selesai quiz
 export function clearQuizState(): void {
   Object.values(STORAGE_KEYS).forEach((key) => {
     removeFromLocalStorage(key);
