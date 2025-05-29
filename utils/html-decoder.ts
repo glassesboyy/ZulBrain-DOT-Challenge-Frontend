@@ -1,4 +1,4 @@
-// Decode HTML entities
+// Decode HTML entities - pertanyaan & jawaban quiz
 export function decodeHtmlEntities(text: string): string {
   const textarea = document.createElement("textarea");
   textarea.innerHTML = text;
