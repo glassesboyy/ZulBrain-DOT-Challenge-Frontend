@@ -1,14 +1,13 @@
-import type React from "react";
+import { QuizProvider } from "@/contexts/quiz-context";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import type React from "react";
 import "./globals.css";
-import { QuizProvider } from "@/contexts/quiz-context";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Quiz App - Test Your Knowledge",
-  description: "A fun and interactive quiz application built with Next.js",
+  title: "ZulBrain - Quiz App",
 };
 
 export default function RootLayout({

@@ -48,15 +48,15 @@ export default function LoginPage() {
         transition={{ duration: 0.5 }}
         className="w-full max-w-md"
       >
-        <Card className="shadow-xl">
+        <Card className="shadow-xl bg-gradient-to-br from-primary via-zinc-700 to-primary text-white border border-white/20">
           <CardHeader className="text-center space-y-1">
-            <div className="mx-auto w-17 h-17 bg-primary rounded-full flex items-center justify-center">
+            <div className="mx-auto w-17 h-17 bg-primary border border-white/40 rounded-full flex items-center justify-center">
               <Brain className="w-10 h-10 text-white" />
             </div>
             <CardTitle className="text-3xl font-bold">
               ZulBrain - Quiz App
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white/40">
               Enter your name to start the quiz challenge!
             </CardDescription>
           </CardHeader>
@@ -74,7 +74,7 @@ export default function LoginPage() {
               />
               <Button
                 type="submit"
-                className="w-full text-lg py-6"
+                className="w-full text-md py-6 bg-black"
                 disabled={!name.trim() || isLoading}
               >
                 {isLoading ? (

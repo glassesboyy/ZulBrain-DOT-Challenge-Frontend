@@ -101,27 +101,27 @@ export default function ResultPage() {
         transition={{ duration: 0.5 }}
         className="w-full max-w-2xl"
       >
-        <Card className="shadow-xl">
-          <CardHeader className="text-center space-y-4">
+        <Card className="shadow-xl bg-gradient-to-br from-primary via-zinc-700 to-primary text-white border border-white/20">
+          <CardHeader className="text-center space-y-1">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring" }}
-              className="mx-auto w-20 h-20 bg-primary rounded-full flex items-center justify-center"
+              className="mx-auto w-20 h-20 rounded-full flex items-center justify-center bg-primary border border-white/40"
             >
               <Trophy className="w-10 h-10 text-white" />
             </motion.div>
-            <CardTitle className="text-3xl font-bold">Quiz Complete!</CardTitle>
-            <p className={`text-sm font-bold ${getPerformanceColor()}`}>
+            <CardTitle className="text-4xl font-bold">Quiz Complete!</CardTitle>
+            <p className={`text-lg font-medium ${getPerformanceColor()}`}>
               {getPerformanceMessage()}{" "}
-              <span className="text-black">{state.user}</span>
+              <span className="text-white">{state.user}</span>
             </p>
           </CardHeader>
 
           <CardContent className="space-y-6">
             {/* Score Overview */}
             <div className="text-center space-y-4">
-              <div className="text-6xl font-bold text-primary">
+              <div className="text-6xl font-bold text-white">
                 {results.percentage}%
               </div>
               <Progress value={results.percentage} className="w-full h-3" />
@@ -133,39 +133,45 @@ export default function ResultPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-center p-4 bg-green rounded-lg border border-green-200"
+                className="text-center p-4 bg-black text-white border-5 border-green-700 rounded-lg flex items-center"
               >
-                <CheckCircle className="w-8 h-8 text-green-600 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-green-600">
-                  {results.correct}
+                <CheckCircle className="w-11 h-11 text-green-600 shrink-0" />
+                <div className="ml-4 text-left">
+                  <div className="text-2xl font-bold text-green-600">
+                    {results.correct}
+                  </div>
+                  <div className="text-sm text-green-700">Correct</div>
                 </div>
-                <div className="text-sm text-green-700">Correct</div>
               </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="text-center p-4 bg-red-50 rounded-lg border border-red-200"
+                className="text-center p-4 bg-black text-white border-5 border-red-700 rounded-lg flex items-center"
               >
-                <XCircle className="w-8 h-8 text-red-600 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-red-600">
-                  {results.wrong}
+                <XCircle className="w-11 h-11 text-red-600 shrink-0" />
+                <div className="ml-4 text-left">
+                  <div className="text-2xl font-bold text-red-600">
+                    {results.wrong}
+                  </div>
+                  <div className="text-sm text-red-700">Wrong</div>
                 </div>
-                <div className="text-sm text-red-700">Wrong</div>
               </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="text-center p-4 bg-blue-50 rounded-lg border border-blue-200"
+                className="text-center p-4 bg-black text-white border-5 border-blue-700 rounded-lg flex items-center"
               >
-                <Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-blue-600">
-                  {results.attempted}
+                <Clock className="w-11 h-11 text-blue-600 shrink-0" />
+                <div className="ml-4 text-left">
+                  <div className="text-2xl font-bold text-blue-600">
+                    {results.attempted}
+                  </div>
+                  <div className="text-sm text-blue-700">Attempted</div>
                 </div>
-                <div className="text-sm text-blue-700">Attempted</div>
               </motion.div>
             </div>
 
@@ -176,14 +182,17 @@ export default function ResultPage() {
               transition={{ delay: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 pt-4"
             >
-              <Button onClick={handleRestart} className="flex-1 text-lg py-6">
+              <Button
+                onClick={handleRestart}
+                className="flex-1 text-md py-6 bg-black cursor-pointer"
+              >
                 <RotateCcw className="w-5 h-5 mr-2" />
                 Take Quiz Again
               </Button>
               <Button
-                variant="outline"
+                variant={"secondary"}
                 onClick={handleGoHome}
-                className="flex-1 text-lg py-6"
+                className="flex-1 text-lg py-6 cursor-pointer"
               >
                 <Home className="w-5 h-5 mr-2" />
                 Back to Home

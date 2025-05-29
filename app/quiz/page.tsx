@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useQuiz } from "@/contexts/quiz-context";
 import {
+  clearQuizState,
   loadFromLocalStorage,
   loadQuizState,
   saveQuizState,
@@ -89,11 +90,11 @@ export default function QuizPage() {
       }
     } catch (error) {
       console.error("Error fetching questions:", error);
-      // Handle error - maybe show a retry button
     }
   };
 
   const handleLogout = () => {
+    clearQuizState();
     dispatch({ type: "RESTART_QUIZ" });
     router.push("/login");
   };
@@ -117,8 +118,8 @@ export default function QuizPage() {
 
   if (state.questions.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <Card className="max-w-md w-full">
+      <div className="min-h-screen flex items-center justify-center p-6">
+        <Card className="max-w-md w-full bg-gradient-to-br from-primary via-zinc-700 to-primary text-white border border-white/20">
           <CardContent className="text-center p-6 space-y-4">
             <h2 className="text-xl font-semibold">Failed to load questions</h2>
             <p className="text-muted-foreground">
@@ -135,8 +136,8 @@ export default function QuizPage() {
   }
 
   return (
-    <div className="min-h-screen p-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen py-24 px-4">
+      <div className="max-w-2xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
