@@ -121,13 +121,16 @@ export default function QuizPage() {
   if (state.questions.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
-        <Card className="max-w-md w-full bg-gradient-to-br from-primary via-zinc-700 to-primary text-white border border-white/20">
+        <Card className="max-w-md w-full bg-indigo-600 text-white border-none">
           <CardContent className="text-center p-6 space-y-4">
             <h2 className="text-xl font-semibold">Failed to load questions</h2>
-            <p className="text-muted-foreground">
+            <p className="text-white/70">
               There was an error loading the quiz questions.
             </p>
-            <Button onClick={fetchQuestions} className="w-full">
+            <Button
+              onClick={fetchQuestions}
+              className="w-full bg-white text-indigo-600 hover:bg-gray-100"
+            >
               <RotateCcw className="w-4 h-4 mr-2" />
               Try Again
             </Button>
@@ -138,7 +141,7 @@ export default function QuizPage() {
   }
 
   return (
-    <div className="min-h-screen py-24 px-4">
+    <div className="min-h-screen py-24 px-4 bg-gray-50">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <motion.div
@@ -147,16 +150,20 @@ export default function QuizPage() {
           className="flex justify-between items-center mb-8"
         >
           <div>
-            <h1 className="text-2xl font-bold text-white">
+            <h1 className="text-2xl font-bold text-indigo-600">
               ZulBrain - Quiz Challenge
             </h1>
-            <p className="text-muted-foreground text-xs uppercase">
+            <p className="text-gray-600 text-xs uppercase">
               Welcome back, {state.user}!
             </p>
           </div>
           <div className="flex items-center gap-4">
             <Timer />
-            <Button variant="outline" onClick={handleLogout}>
+            <Button
+              variant="outline"
+              className="border-red-200 text-red-600 hover:bg-red-50"
+              onClick={handleLogout}
+            >
               <LogOut className="w-4 h-4 mr-2" />
               Logout
             </Button>
@@ -175,7 +182,11 @@ export default function QuizPage() {
           transition={{ delay: 0.5 }}
           className="text-center mt-8"
         >
-          <Button variant="ghost" onClick={handleRestart}>
+          <Button
+            variant="outline"
+            onClick={handleRestart}
+            className="border-indigo-200 text-indigo-600 hover:bg-indigo-50"
+          >
             <RotateCcw className="w-4 h-4 mr-2" />
             Restart Quiz
           </Button>

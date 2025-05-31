@@ -39,51 +39,53 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4">
+    <div className="flex items-center justify-center min-h-screen p-4 bg-indigo-500">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="w-full max-w-md"
       >
-        <Card className="shadow-xl bg-gradient-to-br from-primary via-zinc-700 to-primary text-white border border-white/20">
-          <CardHeader className="text-center space-y-1">
-            <div className="mx-auto w-17 h-17 bg-primary border border-white/40 rounded-full flex items-center justify-center">
+        <Card className="shadow-2xl bg-white border-none">
+          <CardHeader className="text-center space-y-4 pb-2">
+            <div className="mx-auto w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center shadow-xl">
               <Brain className="w-10 h-10 text-white" />
             </div>
-            <CardTitle className="text-3xl font-bold">
-              ZulBrain - Quiz App
+            <CardTitle className="text-4xl font-bold text-indigo-600">
+              ZulBrain
             </CardTitle>
-            <CardDescription className="text-white/40">
-              Enter your name to start the quiz challenge!
+            <CardDescription className="text-gray-600 text-base">
+              Welcome to the Quiz Challenge! 🎯
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <Input
-                id="name"
-                type="text"
-                placeholder="Enter your name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="text-center text-lg"
-                disabled={isLoading}
-              />
+          <CardContent className="px-8 pb-8">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="Enter your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  className="h-12 text-center text-lg bg-gray-50 border-gray-200 focus:border-indigo-500 focus:ring-indigo-500/20 transition-all duration-300"
+                  disabled={isLoading}
+                />
+              </div>
               <Button
                 type="submit"
-                className="w-full text-md py-6 bg-black"
+                className="w-full h-12 text-lg font-semibold bg-indigo-600 hover:bg-indigo-700 transition-all duration-300 shadow-lg"
                 disabled={!name.trim() || isLoading}
               >
                 {isLoading ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Starting Quiz...
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-5 h-5 border-3 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Preparing Quiz...</span>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-2">
-                    Start Quiz
-                    <ArrowRight className="w-4 h-4" />
+                  <div className="flex items-center justify-center gap-2">
+                    <span>Start Quiz</span>
+                    <ArrowRight className="w-5 h-5" />
                   </div>
                 )}
               </Button>

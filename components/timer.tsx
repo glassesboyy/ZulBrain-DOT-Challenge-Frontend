@@ -50,10 +50,10 @@ export function Timer() {
     <div
       className={`flex items-center gap-1 px-4 py-2 rounded-lg font-mono text-md font-bold transition-colors ${
         isVeryLowTime
-          ? "bg-white text-red-700 border-1 border-red-300"
+          ? "bg-red-50 text-red-600 border border-red-200"
           : isLowTime
-          ? "bg-white text-orange-700 border-1 border-orange-300"
-          : "bg-white text-blue-700 border-1 border-blue-300"
+          ? "bg-amber-50 text-amber-600 border border-amber-200"
+          : "bg-indigo-50 text-indigo-600 border border-indigo-200"
       }`}
     >
       <Clock className={`w-4 h-4 ${isVeryLowTime ? "animate-pulse" : ""}`} />

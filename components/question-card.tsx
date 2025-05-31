@@ -39,17 +39,21 @@ export function QuestionCard() {
       transition={{ duration: 0.3 }}
       className="w-full max-w-2xl mx-auto"
     >
-      <Card className="shadow-lg">
+      <Card className="shadow-lg bg-white border border-gray-100">
         <CardHeader className="space-y-4">
-          <div className="flex justify-between items-center text-sm text-muted-foreground">
+          <div className="flex justify-between items-center text-sm text-gray-600">
             <span>
               Question {state.currentQuestionIndex + 1} of{" "}
               {state.questions.length}
             </span>
             <span>{Math.round(progress)}% Complete</span>
           </div>
-          <Progress value={progress} className="w-full" />
-          <CardTitle className="text-xl leading-relaxed">
+          <Progress
+            value={progress}
+            className="w-full"
+            indicatorClassName="bg-indigo-600"
+          />
+          <CardTitle className="text-xl leading-relaxed text-gray-800">
             {decodeHtmlEntities(currentQuestion.question)}
           </CardTitle>
         </CardHeader>
@@ -60,8 +64,8 @@ export function QuestionCard() {
               variant={selectedAnswer === answer ? "default" : "outline"}
               className={`w-full p-4 h-auto text-left justify-start transition-all ${
                 selectedAnswer === answer
-                  ? "bg-primary text-primary-foreground shadow-md scale-105"
-                  : "hover:bg-muted hover:scale-102"
+                  ? "bg-indigo-600 text-white shadow-md scale-105"
+                  : "hover:bg-indigo-50 hover:border-indigo-200 border-gray-200"
               }`}
               onClick={() => handleAnswerSelect(answer)}
               disabled={selectedAnswer !== ""}

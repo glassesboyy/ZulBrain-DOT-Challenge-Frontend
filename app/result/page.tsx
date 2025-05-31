@@ -1,5 +1,6 @@
 "use client";
 
+import { StatCard } from "@/components/stat-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -83,9 +84,9 @@ export default function ResultPage() {
 
   // Warna performa
   const getPerformanceColor = () => {
-    if (results.percentage >= 80) return "text-green-600";
-    if (results.percentage >= 60) return "text-yellow-600";
-    return "text-red-600";
+    if (results.percentage >= 80) return "text-emerald-300";
+    if (results.percentage >= 60) return "text-amber-300";
+    return "text-red-300";
   };
 
   // Cegah back browser
@@ -99,83 +100,83 @@ export default function ResultPage() {
   }, [router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
         className="w-full max-w-2xl"
       >
-        <Card className="shadow-xl bg-gradient-to-br from-primary via-zinc-700 to-primary text-white border border-white/20">
-          <CardHeader className="text-center space-y-1">
+        <Card className="shadow-lg bg-white border border-gray-100">
+          <CardHeader className="text-center space-y-4">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring" }}
-              className="mx-auto w-20 h-20 rounded-full flex items-center justify-center bg-primary border border-white/40"
+              className="mx-auto w-20 h-20 rounded-full flex items-center justify-center bg-indigo-600 shadow-lg"
             >
               <Trophy className="w-10 h-10 text-white" />
             </motion.div>
-            <CardTitle className="text-4xl font-bold">Quiz Complete!</CardTitle>
-            <p className={`text-lg font-medium ${getPerformanceColor()}`}>
+            <CardTitle className="text-4xl font-bold text-gray-900">
+              Quiz Complete!
+            </CardTitle>
+            <p
+              className={`text-lg font-medium ${
+                results.percentage >= 80
+                  ? "text-green-600"
+                  : results.percentage >= 60
+                  ? "text-amber-600"
+                  : "text-red-600"
+              }`}
+            >
               {getPerformanceMessage()}{" "}
-              <span className="text-white">{state.user}</span>
+              <span className="text-gray-700">{state.user}</span>
             </p>
           </CardHeader>
 
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-8">
             <div className="text-center space-y-4">
-              <div className="text-6xl font-bold text-white">
+              <div className="text-6xl font-bold text-indigo-600">
                 {results.percentage}%
               </div>
-              <Progress value={results.percentage} className="w-full h-3" />
+              <Progress
+                value={results.percentage}
+                className="w-full h-3"
+                indicatorClassName={`${
+                  results.percentage >= 80
+                    ? "bg-green-500"
+                    : results.percentage >= 60
+                    ? "bg-amber-500"
+                    : "bg-red-500"
+                }`}
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-center p-4 bg-black text-white border-5 border-green-700 rounded-lg flex items-center"
-              >
-                <CheckCircle className="w-11 h-11 text-green-600 shrink-0" />
-                <div className="ml-4 text-left">
-                  <div className="text-2xl font-bold text-green-600">
-                    {results.correct}
-                  </div>
-                  <div className="text-sm text-green-700">Correct</div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="text-center p-4 bg-black text-white border-5 border-red-700 rounded-lg flex items-center"
-              >
-                <XCircle className="w-11 h-11 text-red-600 shrink-0" />
-                <div className="ml-4 text-left">
-                  <div className="text-2xl font-bold text-red-600">
-                    {results.wrong}
-                  </div>
-                  <div className="text-sm text-red-700">Wrong</div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="text-center p-4 bg-black text-white border-5 border-blue-700 rounded-lg flex items-center"
-              >
-                <Clock className="w-11 h-11 text-blue-600 shrink-0" />
-                <div className="ml-4 text-left">
-                  <div className="text-2xl font-bold text-blue-600">
-                    {results.attempted}
-                  </div>
-                  <div className="text-sm text-blue-700">Attempted</div>
-                </div>
-              </motion.div>
+              <StatCard
+                icon={<CheckCircle className="w-10 h-10 text-green-600" />}
+                value={results.correct}
+                label="Correct"
+                bgColor="bg-green-50"
+                textColor="text-green-600"
+                borderColor="border-green-100"
+              />
+              <StatCard
+                icon={<XCircle className="w-10 h-10 text-red-600" />}
+                value={results.wrong}
+                label="Wrong"
+                bgColor="bg-red-50"
+                textColor="text-red-600"
+                borderColor="border-red-100"
+              />
+              <StatCard
+                icon={<Clock className="w-10 h-10 text-indigo-600" />}
+                value={results.attempted}
+                label="Attempted"
+                bgColor="bg-indigo-50"
+                textColor="text-indigo-600"
+                borderColor="border-indigo-100"
+              />
             </div>
 
             <motion.div
@@ -186,15 +187,15 @@ export default function ResultPage() {
             >
               <Button
                 onClick={handleRestart}
-                className="flex-1 text-md py-6 bg-black cursor-pointer"
+                className="flex-1 h-12 text-lg bg-indigo-600 hover:bg-indigo-700"
               >
                 <RotateCcw className="w-5 h-5 mr-2" />
                 Take Quiz Again
               </Button>
               <Button
-                variant={"secondary"}
+                variant="outline"
                 onClick={handleGoHome}
-                className="flex-1 text-lg py-6 cursor-pointer"
+                className="flex-1 h-12 text-lg border-gray-200 hover:bg-gray-50"
               >
                 <Home className="w-5 h-5 mr-2" />
                 Back to Home

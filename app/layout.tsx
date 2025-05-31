@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <QuizProvider>
-          <div className="min-h-screen bg-black">{children}</div>
+          <div className="min-h-screen bg-white">{children}</div>
         </QuizProvider>
       </body>
     </html>
