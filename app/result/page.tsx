@@ -120,15 +120,7 @@ export default function ResultPage() {
             <CardTitle className="text-4xl font-bold text-gray-900">
               Quiz Complete!
             </CardTitle>
-            <p
-              className={`text-lg font-medium ${
-                results.percentage >= 80
-                  ? "text-green-600"
-                  : results.percentage >= 60
-                  ? "text-amber-600"
-                  : "text-red-600"
-              }`}
-            >
+            <p className={`text-lg font-medium ${getPerformanceColor()}`}>
               {getPerformanceMessage()}{" "}
               <span className="text-gray-700">{state.user}</span>
             </p>

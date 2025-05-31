@@ -48,6 +48,7 @@ export default function QuizPage() {
     } else {
       fetchQuestions();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Cek quiz selesai
@@ -55,6 +56,7 @@ export default function QuizPage() {
     if (state.isQuizCompleted && state.questions.length > 0) {
       router.push("/result");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isQuizCompleted, router]);
 
   // Simpan progres
